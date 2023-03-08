@@ -1,0 +1,16 @@
+# ich hatte schon ein Virtuelles Environment für Webdev und Webscraping
+python -m pip install flask
+
+# erstelle app.py Datei, wenn ich meine Homedatei anders benennen mag kann ich eine environment Variable Nammens  FLASK_APP erstellen welche ich auf die Datei verweise. 
+
+# setting up the debugger as described in https://code.visualstudio.com/docs/python/tutorial-flask and created a "launch.json" File with debug information and set variables for port etc. 
+# the debug configuration is now set to "Python:Flask"
+
+# jetzt mach ma Templates sonnst hama XSS injection Gefahr, soll ja kein HTML im Code sein
+
+# create static folder im Base-Verzeichnis für Addressierung von Static Files (CSS, Pics, alles was sich ned ändert und im Code angesprochen werden soll)
+# mal ein simples css file erstellt, später lad ich da Bootstrap rein, Bootstrap lad ich nimmer über CDN, haben wir ja von Google-Fonts gelernt, dass Anwälte Richter die Technik nicht verstehen ausnutzen. 
+der "url_for" Flask Tag is praktisch weil er den Pfad zur Static_html flexibel erstellt, praktisch bei deployment, schau ma mal obs klappt wenn ich am Schluss auf Heroku deploye =)
+
+# finished the Tutorial above... will start fresh from new project for Schifffahrtsgesellschaft oida, weil ich mir das Template lieber selber zamstellen mag (des Zeug is schon etwas veraltet)
+# oder auch nicht, ich probiers mal so, kann mir das Projekt ja noch immer aus dem Git nachladen. bzw. hört sich eh gut an das Zeug mal ins Git für Versionierung zu laden...
