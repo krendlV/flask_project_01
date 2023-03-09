@@ -35,35 +35,35 @@ def get_data():
     return app.send_static_file("data.json")
 
 @app.route("/team/")
-def about():
+def team():
     return render_template("team.html")
 
 @app.route("/work/")
-def about():
+def work():
     return render_template("work.html")
 
 # Projects
 # project 1
 @app.route("/project1/")
-def about():
+def project1():
     return render_template("project1.html")
 
 # project 2
 @app.route("/project2/")
-def about():
+def project2():
     return render_template("project2.html")
 
 # project 3
 @app.route("/project3/")
-def about():
+def project3():
     return render_template("project3.html")
 
 # project 4
 @app.route("/project4/")
-def about():
+def project4():
     return render_template("project4.html")
 
 # project 5
 @app.route("/project5/")
-def about():
+def project5():
     return render_template("project5.html")
