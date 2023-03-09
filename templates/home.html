@@ -3,7 +3,31 @@
 Home
 {% endblock %}
 {% block content %}
-<br>
-<h3> Home Page von unserer Website</h3>
-<img src="./static/pics/Schiff.png" alt="Bild" width="500" height="600">
+
+<!-- Image Header -->
+<div class="w3-display-container w3-animate-opacity">
+    <img src="./static/pics/hintergrund.jpg" alt="boat" style="width:100%;min-height:350px;max-height:600px;">
+    <div class="w3-container w3-display-bottomleft w3-margin-bottom">  
+      <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-xlarge w3-theme w3-hover-teal" title="Go To W3.CSS"><i class="fa fa-anchor"></i>CNLFV - Schifffahrt 2023</button>
+    </div>
+  </div>
+
+<!-- Modal -->
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-teal w3-display-container"> 
+        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-teal w3-display-topright"><i class="fa fa-remove"></i></span>
+        <h4>Hier können wir was anzeigen lassen</h4>
+        <h5>Einfach weil mas können <i class="fa fa-smile-o"></i></h5>
+      </header>
+      <div class="w3-container">
+        <p>Genug gespielt</p>
+        <p>bei unserer <a class="w3-text-teal" href="{{ url_for('work') }}">Dokumentation</a> beschreiben wir was wir gemacht haben</p>
+      </div>
+      <footer class="w3-container w3-teal">
+        <p>Und das ist ein eigener Footer wo wir auch was reingeben können</p>
+      </footer>
+    </div>
+  </div>
+
 {% endblock %}
