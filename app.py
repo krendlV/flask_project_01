@@ -5,14 +5,14 @@ from flask import Flask
 from flask import render_template
 import os
 from flask_login import LoginManager
-
+from flask import session
+from flask import abort, redirect, url_for
+from flask import request
 
 login_manager = LoginManager()
 
 
 app = Flask(__name__, template_folder='templates')
-
-from flask import session
 
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = b'#_3y2L_"F4Q8z\n\xec]/'
@@ -22,8 +22,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# Replace the existing home function with the one below
-@app.route("/")
+# Home sweet Home
 def home():
     return render_template("home.html")
 
@@ -59,9 +58,18 @@ def work():
 
 # Projects
 # project 1
-@app.route("/login/")
+@app.route("/login/", methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('/'))
     return render_template("login.html")
+
+@app.route("/logout/")
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('/'))
 
 # project 2
 @app.route("/project2/")
