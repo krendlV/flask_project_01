@@ -63,7 +63,7 @@ def work():
 
 # Projects
 # project 1
-@app.route('/register', methods=('GET', 'POST'))
+@app.route('/register/', methods=('GET', 'POST'))
 def register():
     # when user submits form
     if request.method == 'POST':
@@ -97,11 +97,10 @@ def register():
         flash(error)
 
     #html rendering
-    return render_template('auth/register.html')
+    return render_template('register.html')
 
 
-@app.route("/login/", methods=['GET', 'POST'])
-@app.route('/login', methods=('GET', 'POST'))
+@app.route('/login/', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         username = request.form['username']
