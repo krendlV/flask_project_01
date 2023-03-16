@@ -1,4 +1,5 @@
 import re
+import sqlite3
 from datetime import datetime
 from flask import Flask
 from flask import render_template
@@ -6,6 +7,11 @@ import os
 
 
 app = Flask(__name__, template_folder='templates')
+
+def get_db_connection():
+    conn = sqlite3.connect('data.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # Replace the existing home function with the one below
 @app.route("/")
@@ -44,9 +50,9 @@ def work():
 
 # Projects
 # project 1
-@app.route("/project1/")
-def project1():
-    return render_template("project1.html")
+@app.route("/login/")
+def login():
+    return render_template("login.html")
 
 # project 2
 @app.route("/project2/")
