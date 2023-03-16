@@ -23,6 +23,7 @@ def get_db_connection():
     return conn
 
 # Home sweet Home
+@app.route("/")
 def home():
     return render_template("home.html")
 
