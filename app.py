@@ -4,9 +4,18 @@ from datetime import datetime
 from flask import Flask
 from flask import render_template
 import os
+from flask_login import LoginManager
+
+
+login_manager = LoginManager()
 
 
 app = Flask(__name__, template_folder='templates')
+
+from flask import session
+
+# Set the secret key to some random bytes. Keep this really secret!
+app.secret_key = b'#_3y2L_"F4Q8z\n\xec]/'
 
 def get_db_connection():
     conn = sqlite3.connect('data.db')
@@ -73,3 +82,6 @@ def project4():
 @app.route("/project5/")
 def project5():
     return render_template("project5.html")
+
+random_bytes = os.urandom(22)
+print(random_bytes)
