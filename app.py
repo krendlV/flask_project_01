@@ -8,6 +8,10 @@ from flask_login import LoginManager
 from flask import session
 from flask import abort, redirect, url_for
 from flask import request
+from werkzeug.security import check_password_hash, generate_password_hash
+from flask import flash
+from flask import current_app, g
+from init_db import get_db
 
 login_manager = LoginManager()
 
@@ -59,12 +63,74 @@ def work():
 
 # Projects
 # project 1
+@app.route('/register', methods=('GET', 'POST'))
+def register():
+    # when user submits form
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        db = get_db()
+        error = None
+
+        #valide usr/pw not empty
+        if not username:
+            error = 'Username is required.'
+        elif not password:
+            error = 'Password is required.'
+
+        if error is None:
+            try:
+                #inser usr/pw into db
+                # generate_password_hash to securely hash pw
+                db.execute(
+                    "INSERT INTO user (username, password) VALUES (?, ?)",
+                    (username, generate_password_hash(password)),
+                )
+                db.commit()
+            except db.IntegrityErrror:
+                error = f"User {username} is already registered."
+            else:
+                # after storing usr/pw-> redirect to login
+                return redirect(url_for("login"))
+
+        # in case of error
+        flash(error)
+
+    #html rendering
+    return render_template('auth/register.html')
+
+
 @app.route("/login/", methods=['GET', 'POST'])
+@app.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        session['username'] = request.form['username']
-        return redirect(url_for('/'))
-    return render_template("login.html")
+        username = request.form['username']
+        password = request.form['password']
+        db = get_db()
+        error = None
+        user = db.execute(
+            'SELECT * FROM user WHERE username = ?', (username,)
+        ).fetchone()
+        #fetchone returns  one row from the query
+
+        if user is None:
+            error = 'Incorrect username.'
+
+        #hash submitted password and compare
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+
+        if error is None:
+            #session is a dict that stores data across request
+            # user id stored in session!
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('home'))
+
+        flash(error)
+
+    return render_template('login.html')
+
 
 @app.route("/logout/")
 def logout():
