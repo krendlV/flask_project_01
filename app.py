@@ -14,7 +14,9 @@ from flask import current_app, g
 from init_db import get_db
 from sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-
+from flask_wtf import FlaskForm
+from wtforms import StringField,PasswordField,SubmitField,BooleanField
+from wtforms.validators import DataRequired,Email,EqualTo
 
 
 app = Flask(__name__, template_folder='templates')
@@ -46,7 +48,20 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.get(user_id)
 
-    
+
+class RegistrationForm(FlaskForm):
+    username = StringField('username', validators =[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(),Email()])
+    password1 = PasswordField('Password', validators = [DataRequired()])
+    password2 = PasswordField('Confirm Password', validators = [DataRequired(),EqualTo('password1')])
+    submit = SubmitField('Register')
+
+class LoginForm(FlaskForm):
+    email = StringField('Email',validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember = BooleanField('Remember Me',validators= [DataRequired()])
+    submit = SubmitField('Login')
+
 
 # Home sweet Home
 @app.route("/")
@@ -85,72 +100,29 @@ def work():
 
 # Projects
 # project 1
-@app.route('/register/', methods=('GET', 'POST'))
+@app.route('/register', methods = ['POST','GET'])
 def register():
-    # when user submits form
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        db = get_db()
-        error = None
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username =form.username.data, email = form.email.data)
+        user.set_password(form.password1.data)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
 
-        #valide usr/pw not empty
-        if not username:
-            error = 'Username is required.'
-        elif not password:
-            error = 'Password is required.'
-
-        if error is None:
-            try:
-                #inser usr/pw into db
-                # generate_password_hash to securely hash pw
-                db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                )
-                db.commit()
-            except db.IntegrityErrror:
-                error = f"User {username} is already registered."
-            else:
-                # after storing usr/pw-> redirect to login
-                return redirect(url_for("login"))
-
-        # in case of error
-        flash(error)
-
-    #html rendering
-    return render_template('register.html')
-
-
-@app.route('/login/', methods=('GET', 'POST'))
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        db = get_db()
-        error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
-        #fetchone returns  one row from the query
 
-        if user is None:
-            error = 'Incorrect username.'
-
-        #hash submitted password and compare
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
-
-        if error is None:
-            #session is a dict that stores data across request
-            # user id stored in session!
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('home'))
-
-        flash(error)
-
-    return render_template('login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email = form.email.data).first()
+        if user is not None and user.check_password(form.password.data):
+            login_user(user)
+            next = request.args.get("next")
+            return redirect(next or url_for('home'))
+        flash('Invalid email address or Password.')    
+    return render_template('login.html', form=form)
 
 
 @app.route("/logout/")
