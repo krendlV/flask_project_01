@@ -12,7 +12,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import flash
 from flask import current_app, g
 from init_db import get_db
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 
 
@@ -42,7 +42,11 @@ class User(UserMixin, db.Model):
   def check_password(self,password):
       return check_password_hash(self.password_hash,password)
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 
+    
 
 # Home sweet Home
 @app.route("/")
