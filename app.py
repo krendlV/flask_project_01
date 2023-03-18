@@ -12,7 +12,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import flash
 from flask import current_app, g
 from init_db import get_db
-from sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,BooleanField
@@ -100,7 +100,7 @@ def work():
 
 # Projects
 # project 1
-@app.route('/register', methods = ['POST','GET'])
+@app.route('/register/', methods = ['POST','GET'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -111,7 +111,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
 
     form = LoginForm()

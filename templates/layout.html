@@ -37,6 +37,12 @@
                 <a href="{{ url_for('team') }}" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Team</a>
                 <a href="{{ url_for('work') }}" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Dokumentation</a>
                 <a href="{{ url_for('contact') }}" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Kontakt</a>
+                {% if current_user.is_anonymous %}
+                <a href="{{ url_for('login') }}"class="w3-bar-item w3-button w3-teal">Login</a>
+                {% else %}
+                <a>Welcome {{current_user.username}}</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+                {% endif %}
                 <div class="w3-dropdown-hover w3-hide-small">
                     <button class="w3-button" title="Notifications">Projekte <i class="fa fa-caret-down"></i></button>     
                     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
