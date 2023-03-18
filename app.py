@@ -11,7 +11,6 @@ from flask import request
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import flash
 from flask import current_app, g
-from init_db import get_db
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
