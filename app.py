@@ -4,7 +4,6 @@ from datetime import datetime
 from flask import Flask
 from flask import render_template
 import os
-from flask_login import LoginManager
 from flask import session
 from flask import abort, redirect, url_for
 from flask import request
@@ -12,16 +11,15 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import flash
 from flask import current_app, g
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,BooleanField
 from wtforms.validators import DataRequired,Email,EqualTo
 
-
 app = Flask(__name__, template_folder='templates')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] =False
 db = SQLAlchemy(app)
 
 SECRET_KEY = os.urandom(32)
@@ -45,7 +43,8 @@ class User(UserMixin, db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    return User.query.get(user_id) # es gehört .query dazu, das is in der Flask Doku falsch!!!
+
 
 
 class RegistrationForm(FlaskForm):
@@ -150,5 +149,3 @@ def project4():
 def project5():
     return render_template("project5.html")
 
-random_bytes = os.urandom(22)
-print(random_bytes)

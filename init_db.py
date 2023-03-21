@@ -12,7 +12,9 @@ with open ('tools/schema.sql') as f:
 cur = connection.cursor()
 
 # Beispiel für ein befülln von Datenbank Tabelle
-
+cur.execute("INSERT INTO user (username, email, password, date_created) VALUES (?, ?, ?, ?)",
+            ('test', 'test@gmail.com', '1q2w3', '2023-03-18 12:11:32.660910')
+)
 #cur.execute("INSERT INTO posts (title, content) VALUES (?, ?)",
 #           ('First Post', 'Content for the first post')
 #            )
