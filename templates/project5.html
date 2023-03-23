@@ -28,7 +28,7 @@ register
 			<tbody>
             {% for entry in logbuchliste %}
                 <!-- dict keys in examlist as defined in the SQL statement in exams.py-->
-	        	<tr><td>{{ entry['Logbuch_Code'] }}</td><td>{{ entry['Logbuch_Inventarnummer'] }}</td><td>{{ entry['Logbuch_Angestelltennummer'] }}</td><td>
+	        	<tr><td>{{ entry['Code'] }}</td><td>{{ entry['Inventarnummer'] }}</td><td>{{ entry['Angestelltennummer'] }}</td><td>
              {% endfor %}
 			</tbody>
 		</table>
