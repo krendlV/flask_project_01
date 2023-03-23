@@ -343,8 +343,9 @@ def project4():
 @app.route("/project5/", methods=['GET', 'POST'])
 def project5():
     #i dont know how to conect to the database to execute my sql query 
+    data = sqlite3.connect('data.db')
     logbuchliste = data.execute(
-        "SELECT Logbuch.Code, Logbuch.Inventarnummer, Logbuch.Angestelltennummer"
+        "SELECT Code, Inventarnummer,Angestelltennummer"
         "FROM Logbuch"
     ).fetchall()
     return render_template("project5.html",logbuchliste=logbuchliste)
