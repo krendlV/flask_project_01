@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS "Buchung" (
 	"Buchungsnummer"	INTEGER,
 	"Passagennummer"	INTEGER,
 	"Passagiernummer"	INTEGER NOT NULL,
-	"Bunchungsdatum"	DATE,
+	"Buchungsdatum"	DATE,
 	"Klasse"	TEXT,
 	FOREIGN KEY("Passagiernummer") REFERENCES "Passagier"("Passagiernummer"),
 	FOREIGN KEY("Passagennummer") REFERENCES "Passage"("Passagennummer"),
