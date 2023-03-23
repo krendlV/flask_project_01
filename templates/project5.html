@@ -3,5 +3,22 @@
 Projekt 5
 {% endblock %}
 {% block content %}
+<br>
 
+<h1>Ship Type Form</h1>
+<form method="post" action="/">
+  <label for="ship_type">Enter the ship type:</label>
+  <input type="text" id="ship_type" name="ship_type">
+  <br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<br>
+
+<h1>Technicians who can service {{ ship_type }}:</h1>
+    <ul>
+      {% for technician in technicians %}
+        <li>{{ technician }}</li>
+      {% endfor %}
+    </ul>
 {% endblock %}

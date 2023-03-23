@@ -19,7 +19,7 @@ from wtforms.validators import DataRequired,Email,EqualTo
 #i load it later in the create_db function
 #from models import db # import the 'db' object from the models file
 from config import config
-
+import os.path
 
 
 app = Flask(__name__, template_folder='templates')
@@ -27,19 +27,19 @@ app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config.SQLALCHEMY_TRACK_MODIFICATIONS
 
-db = SQLAlchemy(app) # derweil auskommentiert weil ich die db aus models.py importiere
+db = SQLAlchemy(app) # create the db object
 
 # here i create all the models with which the tables are created.
 # create User Model
 class User(UserMixin, db.Model):
   __tablename__ = 'User'
-  __table_args__ = {'extend_existing': True} # damit ich die Tabelle erweitern kann, ohne sie neu zu erstellen
+  #__table_args__ = {'extend_existing': True} # damit ich die Tabelle erweitern kann, ohne sie neu zu erstellen
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(50), index=True, unique=True)
   email = db.Column(db.String(150), unique = True, index = True)
   password_hash = db.Column(db.String(150))
   joined_at = db.Column(db.DateTime(), default = datetime.utcnow, index = True)
-  Sozialversicherungsnummer = db.Column(db.Integer, db.ForeignKey('Person.Sozialversicherungsnummer'), unique=True)
+  Sozialversicherungsnummer = db.Column(db.Integer, db.ForeignKey('Person.Sozialversicherungsnummer'), nullable=True)
 
   def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -221,14 +221,18 @@ class KapitaenPassage(db.Model): # Umlaut entfernt
 
 
 
-
+# kleine Funktion die die DB erstellt, wenn sie noch nicht existiert
 
 def create_db():
     db.drop_all()
     db.create_all()
 
-#create_db()
-# Auskommentieren nachdem die DB erstellt wurde...
+if os.path.exists("instance/data.db"):
+    print ("DB existiert bereits")
+else:
+    create_db()
+    print ("DB wurde erstellt")
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -299,6 +303,7 @@ def register():
     if form.validate_on_submit():
         user = User(username =form.username.data, email = form.email.data)
         user.set_password(form.password1.data)
+        current_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/data.db'
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('login'))
@@ -340,8 +345,45 @@ def project4():
     return render_template("project4.html")
 
 # project 5
-@app.route("/project5/")
+@app.route("/project5/", methods=['GET', 'POST'])
 def project5():
-    return render_template("project5.html")
+    def get_technicians(ship_type):
+        # Connect to the SQLite database
+        conn = sqlite3.connect('data.db')
+
+        # Create a cursor object to execute SQL queries
+        cursor = conn.cursor()
+
+        # Execute the SQL query to retrieve the technicians who can service the specified ship type
+        query = "SELECT Name FROM Techniker WHERE ship_type_id = (SELECT ship_type_id FROM Schifftyp WHERE ship_type = ?)"
+        cursor.execute(query, (ship_type,))
+
+        # Fetch the results and store them in a list
+        results = []
+        for row in cursor:
+            results.append(row[0])
+
+        # Close the cursor and database connection
+        cursor.close()
+        conn.close()
+
+        # Return the list of technicians who can service the specified ship type
+        return results
+
+
+    if request.method == 'POST':
+        # Get the user input from the HTML form
+        ship_type = request.form['ship_type']
+
+        # Call the get_technicians function to retrieve the technicians who can service the specified ship type
+        technicians = get_technicians(ship_type)
+
+        # Render the results in an HTML template and return it
+        return render_template('results.html', technicians=technicians, ship_type=ship_type)
+
+    # If no user input has been submitted yet, just render the HTML form
+    return render_template('form.html')
+
+
 
 
