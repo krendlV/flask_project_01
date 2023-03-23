@@ -340,8 +340,13 @@ def project4():
     return render_template("project4.html")
 
 # project 5
-@app.route("/project5/")
+@app.route("/project5/", methods=['GET', 'POST'])
 def project5():
-    return render_template("project5.html")
+    #i dont know how to conect to the database to execute my sql query 
+    logbuchliste = data.execute(
+        "SELECT Logbuch.Code, Logbuch.Inventarnummer, Logbuch.Angestelltennummer"
+        "FROM Logbuch"
+    ).fetchall()
+    return render_template("project5.html",logbuchliste=logbuchliste)
 
 
