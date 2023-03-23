@@ -1,7 +1,42 @@
 {% extends "layout.html" %}
 {% block title %}
-Projekt 5
+register
 {% endblock %}
 {% block content %}
+<div class="container marketing">
+
+    <!-- START THE FEATURETTES -->
+    <div class="signpost"><h1>    </h1></div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">Logbücher</h2>
+            <p class="lead">Full list.</p>
+
+         
+
+		<table class="table table-responsive table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Code</th>
+					<th>Inventarnummer</th>
+					<th>Ausgeborgt vom</th>
+				</tr>
+			</thead>
+			<tbody>
+            {% for entry in logbuchliste %}
+                <!-- dict keys in examlist as defined in the SQL statement in exams.py-->
+	        	<tr><td>{{ entry['Logbuch_Code'] }}</td><td>{{ entry['Logbuch_Inventarnummer'] }}</td><td>{{ entry['Logbuch_Angestelltennummer'] }}</td><td>
+             {% endfor %}
+			</tbody>
+		</table>
+
+    <!--<hr class="featurette-divider">-->
+
+    <!-- /END THE FEATURETTES -->
+
+</div><!-- /.container -->
 
 {% endblock %}
