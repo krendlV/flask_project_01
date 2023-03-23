@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Technicians for Ship Type</title>
+  </head>
+  <body>
+    <h1>Technicians who can service {{ ship_type }}:</h1>
+    <ul>
+      {% for technician in technicians %}
+        <li>{{ technician }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
