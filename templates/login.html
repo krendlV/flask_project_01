@@ -4,7 +4,8 @@ login
 {% endblock %}
 {% block content %}
 <br>
-<h1><a href="{{ url_for('register') }}">Create a new Account!</a></h1>
+<br>
+<h5><a href="{{ url_for('register') }}">Neuen Account erstellen</a></h1>
 <form action="" method="post">
    {{ form.hidden_tag() }}
    <div>
@@ -35,7 +36,7 @@ login
       {% endfor %}
    </div>
    <p>{{ form.remember() }} {{ form.remember.label }}</p>
-   <p>{{ form.submit(style ='background-color: #4CAF50;
+   <p>{{ form.submit(style ='background-color: #009688;
       color: white;
       width: 50%;
       padding: 14px 20px;
