@@ -342,12 +342,67 @@ def project4():
 # project 5
 @app.route("/project5/", methods=['GET', 'POST'])
 def project5():
-    #i dont know how to conect to the database to execute my sql query 
+    user_id = session.get('username')
+
     data = sqlite3.connect('data.db')
+    
+    #liste aller logbücher
     logbuchliste = data.execute(
         "SELECT Code, Inventarnummer,Angestelltennummer"
         "FROM Logbuch"
     ).fetchall()
-    return render_template("project5.html",logbuchliste=logbuchliste)
 
+    sozialnummer= data.execute(
+        'SELECT Sozialversicherungsnummer'
+        'FROM User'
+        'WHERE username = ?', (user_id['username']),
+    ).fetchone()
+
+    angestelltennummer=data.execute(
+        'SELECT Angestelltennummer'
+        'From Angestellter'
+        'WHERE Sozialversicherungsnummer=?', (sozialnummer['Sozialsversicherungsnummer']),
+    ).fetchone()
+    #liste der ausgeborgten logbücher
+    logbuchlisteuser= data.execute(
+        'SELECT Code, Inventarnummer'
+        'From Logbuch'
+        'WHERE Angestelltennummer=? ', (angestelltennummer['Angestelltennumer']),
+    ).fetchall()
+
+    #ausborgen zurück geben
+    if request.method == 'POST':
+        if 'returninv' in request.form:
+            returnin= request.form['returninv']
+            try:
+                logbuchausgeborgt=data.execute(
+                'SELECT * FROM Logbuch'
+                'WHERE Angestelltennummer=?' (angestelltennummer['Angestelltennumer']),
+                ).fetchone()
+                if logbuchausgeborgt:
+                    rückggabe=data.execute(
+                        'UPDATE Logbuch SET Angestelltennummer=NULL WHERE Code=?', (returnin,))
+                    retval = data.commit()
+            except (sqlite3.Error) as e:
+                flash(e)
+
+        elif 'inventorynr' in request.form:
+            inventorynr = request.form['inventorynr']
+            try:
+                #check ob Logbuch überhaupt exestiert
+                logbuchexists = data.execute(
+                    "SELECT * FROM Logbuch"
+                    " WHERE Code = ?", (inventorynr,)
+                ).fetchone()
+                if logbuchexists:
+                    toborrow = data.execute(
+                        'INSERT INTO Logbuch (Angestelltennummer)'
+                        ' VALUES (?)',
+                        (angestelltennummer['Angestelltennumer']),
+                    )
+                    retval = data.commit()
+            except (sqlite3.Error) as e:
+                flash(e)
+                
+    return render_template("project5.html",logbuchliste=logbuchliste,logbuchlisteuser=logbuchlisteuser)
 
