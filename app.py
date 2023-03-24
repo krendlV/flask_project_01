@@ -226,6 +226,8 @@ class KapitaenPassage(db.Model): # Umlaut entfernt
 def create_db():
     db.drop_all()
     db.create_all()
+    import testdata
+    testdata.create_test_data()
 
 if os.path.exists("instance/data.db"):
     print ("DB existiert bereits")
