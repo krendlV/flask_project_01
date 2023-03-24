@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}
+buchungsinfo
+{% endblock %}
+{% block content %}
+<br>
+<h1>Buchungsnummer eingeben</h1>
+<form action="/" method="post">
+    <label for="booking_id">Buchungsnummer:</label>
+    <input type="text" id="booking_id" name="booking_id">
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

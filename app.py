@@ -354,7 +354,7 @@ def project2():
 def project3():
     user_id = session.get('username')
 
-    data = sqlite3.connect('data.db')
+    data = sqlite3.connect('instance/data.db')
     
     #liste aller logbücher
     logbuchliste = data.execute(
@@ -417,16 +417,58 @@ def project3():
     return render_template("project3.html",logbuchliste=logbuchliste,logbuchlisteuser=logbuchlisteuser)
 
 # project 4
-@app.route("/project4/")
+@app.route("/project4/", methods=["GET", "POST"])
+
 def project4():
-    return render_template("project4.html")
+
+    if request.method == "POST":
+        booking_id = request.form["booking_id"]
+
+        conn = sqlite3.connect("data.db")
+        c = conn.cursor()
+
+        c.execute("SELECT Passagennummer, Passagiernummer, Buchungsdatum, Klasse FROM Buchung WHERE Buchungsnummer = ?",
+                  (booking_id))
+        bookings = c.fetchone()
+
+        conn.close()
+
+        return render_template("buchungsinfo.html", bookings=bookings)
+
+
+    return render_template("buchungsinfo.html")
+
+
+#def create_booking():
+    #if request.method == 'POST':
+       #conn = sqlite3.connect('instance/data.db')
+        #c = conn.cursor()
+        # Get form data
+        #travel_class = request.form['travel_class']
+        # Generate random passage number, passenger number, and booking number
+        #old_passage_num = c.execute('SELECT passage_num FROM Buchung ORDER BY passage_num DESC LIMIT 1').fetchone()
+        #passage_num = old_passage_num[0] + 1 if old_passage_num else 1
+        #passenger_num = c.execute('SELECT id FROM Passagier WHERE Passagiernummer = ?', (Passagiernummer,))
+        #booking_num = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+        # Insert booking data into database
+        #conn = sqlite3.connect('instance/data.db')
+        #c = conn.cursor()
+        #c.execute('INSERT INTO Buchung (passenger_num, passage_num, booking_num, travel_class) VALUES (?, ?, ?, ?)', (Passagiernummer, Passagennummer, Buchungsnummer, Klasse))
+        #conn.commit()
+        # Get the ID of the newly inserted row
+        #booking_id = c.lastrowid
+        #conn.close()
+        # Return a success message with the newly generated booking number
+        #return render_template('erfolg.html', booking_num=booking_num)
+    # If request method is GET, show the form
+    #return render_template('buchung_erstellen.html')
 
 # project 5
 @app.route("/project5/", methods=['GET', 'POST'])
 def project5():
     def get_technicians(ship_type):
         # Connect to the SQLite database
-        conn = sqlite3.connect('data.db')
+        conn = sqlite3.connect('instance/data.db')
 
         # Create a cursor object to execute SQL queries
         cursor = conn.cursor()
