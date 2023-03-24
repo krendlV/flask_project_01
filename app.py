@@ -105,8 +105,8 @@ class Passage(db.Model):
     Passagennummer = db.Column(db.Integer, primary_key=True)
     Abfahrtshafen = db.Column(db.String(50))
     Zielhafen = db.Column(db.String(50))
-    Abfahrtszeit = db.Column(db.Time)
-    Ankunftszeit = db.Column(db.Time)
+    Abfahrtszeit = db.Column(db.DateTime)
+    Ankunftszeit = db.Column(db.DateTime)
 
 # Anschlusspassage Model
 # bei dem bin ich mir ned sicher...
@@ -136,9 +136,9 @@ class Buchung(db.Model):
     Buchungsnummer = db.Column(db.Integer, primary_key=True)
     Passagennummer = db.Column(db.Integer, db.ForeignKey('Passage.Passagennummer'))
     Passagiernummer = db.Column(db.Integer, db.ForeignKey('Passagier.Passagiernummer'), nullable=False)
-    Buchungsdatum = db.Column(db.Date)
+    Buchungsdatum = db.Column(db.DateTime)
     Klasse = db.Column(db.Text)
-    passagier = db.relationship('Passagier', backref='buchungen')
+    passagier = db.relationship('Passagier', backref='buchungen') # evtl. brauchen wir hier die Referenz zur Passagiernummer und nicht zu Passagier
     passage = db.relationship('Passage', backref='buchungen')
 
 # Schiff Model
