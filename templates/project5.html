@@ -22,7 +22,6 @@ register
 				<tr>
 					<th>Code</th>
 					<th>Inventarnummer</th>
-					<th>Ausgeborgt vom</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,6 +31,58 @@ register
              {% endfor %}
 			</tbody>
 		</table>
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Logbuch ausborgen</h2>
+                <p class="lead">Liste von ausgeborgten büchern für Mitarbeiter:</p>
+    
+                    <table class="table table-responsive table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Inventarnummer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for entry in logbuchlisteuser %}
+                    <!-- dict keys in examlist as defined in the SQL statement in exams.py-->
+                    <tr><td>{{ entry['Code'] }}</td><td>{{ entry['Inventarnummer'] }}</td><td>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+            </div>
+            <div class="col-md-5">
+                <h2 class="featurette-heading">Ausborgen oder Zurückgeben:</h2>
+                <p class="lead">Für Logbuch Code Logbuchbibliotehk ansehen:</p>
+    
+                <form method="post" style="">
+                    <input type="hidden" name="menu" value="borrow_book" />
+                    <table class="table table-responsive table-striped table-hover">
+                    <tbody>
+                        <tr><td>Code von Logbuch das ausgeborgt wird:</td><td><input name="inventorynr" value="{{ request.form['inventorynr'] }}" /></td></tr>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-primary" style="float: right">
+                        <span class="btn btn-primary"></span> ausborgen...
+                    </button>
+                </form>
+    
+                <form method="post" style="">
+                    <input type="hidden" name="menu" value="return_book" />
+                    <table class="table table-responsive table-striped table-hover">
+                    <tbody>
+                        <tr><td>Code von Logbuch das zurück gegeben wird:</td><td><input name="returninv" value="{{ request.form['returninv'] }}" /></td></tr>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-primary" style="float: right">
+                        <span class="btn btn-primary"></span> Zurückgeben...
+                    </button>
+                </form>
+            </div>
+        </div>
 
     <!--<hr class="featurette-divider">-->
 
