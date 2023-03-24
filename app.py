@@ -285,9 +285,9 @@ def hello_there(name = None):
         date=datetime.now()
     )
 
-@app.route("/api/data")
-def get_data():
-    return app.send_static_file("data.json")
+@app.route("/pdf/")
+def pdf():
+    return app.send_static_file("Aufgabe04.pdf")
 
 @app.route("/team/")
 def team():

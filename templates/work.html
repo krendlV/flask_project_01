@@ -1,7 +1,143 @@
 {% extends "layout.html" %}
 {% block title %}
-work
+Dokumentation
 {% endblock %}
 {% block content %}
+<br>
+<h1>Dokumentation</h1>
+<br>
+<!-- Bootstrap Accordion-->
+<div class="container" style="text-align:center;">
+<div class="accordion " id="accordionExample" style="width:80%">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          Start
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            Unsere Angabe kann hier heruntergeladen werden: <a class="w3-button w3-large w3-teal" href="{{ url_for('pdf') }}" title="Github"><i class="fa fa-file-pdf-o"></i></a>
+
+            <p><a href="https://github.com/krendlV/flask_project_01"> Hier ist der Link zu unserem Github Repository in welchem wir auch alle Schritte in den Commit Notes dokumentiert haben:</a>
+            <a class="w3-button w3-large w3-teal" href="https://github.com/krendlV/flask_project_01" title="Github"><i class="fa fa-github"></i></a></p>
+            
+            
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Vom ERM zur Flask-App
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <img src="/static/pics/erm.png" alt="erm" style="width:80%;min-height:350px;">
+            <br>
+
+            Das war unser ausgehendes ERM-Modell vom letzen Semester
+        
+
+
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Flask Crashkurs
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            Die Flask-App wurde mit folgender Anleitung --> <a href="https://code.visualstudio.com/docs/python/tutorial-flask">LINK</a> erstellt.
+            Dabei wurde eine Notes.txt angelegt welche die einzelnen Schritte dokumentiert bis eine lauffähige App erstellt wurde.
+            Danach wurden die einzelnen Schritte durch die Commits im Github Repository dokumentiert.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingfour">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefour" aria-expanded="false" aria-controls="collapsefour">
+            first APP
+          </button>
+        </h2>
+        <div id="collapsefour" class="accordion-collapse collapse" aria-labelledby="headingfour" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+              So hat die Seite zu Beginn ausgesehen:
+              <br>
+              <img src="/static/pics/first_app.jfif" alt="first_app" style="width:100%;min-height:350px;">
+              <br>
+              Danach wurde die Seite mit Bootstrap & Font-Awesome verschönert. 
+              Das Laden erfolgt mittels CDN, bei einer Produktionsumgebung ist der Lokale Betrieb zu empfehlen (siehe Google-Fonts).  
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingfive">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefive" aria-expanded="false" aria-controls="collapsefive">
+            Talk Database with me
+          </button>
+        </h2>
+        <div id="collapsefive" class="accordion-collapse collapse" aria-labelledby="headingfive" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            Aufgrund von Komplikationen mit der implementierung der Register-User Funktion haben wir uns dazu entschieden die USer mit SQLAlchemy anzulegen da wir folgende Tutorials dazu gefunden haben: 
+             <a href="https://betterprogramming.pub/a-detailed-guide-to-user-registration-login-and-logout-in-flask-e86535665c07">LINK User Authentication</a> & <a href="https://betterprogramming.pub/everything-you-need-to-know-about-databases-in-flask-3c7cf44ad6fe">LINK Database in Flask</a>
+            SQLAlchemy hat eine sehr hohe Lernkurve. Leider hat sich ein Error durchgezogen, welcher das schreiben in der Datenbank inklusive Login, nur unter gewissen umständen Erlaubt hat.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingsix">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesix" aria-expanded="false" aria-controls="collapsesix">
+            SQLAlchemy
+          </button>
+        </h2>
+        <div id="collapsesix" class="accordion-collapse collapse" aria-labelledby="headingaix" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            Die Datenbankimplementierung wurde anfangs mit einem Schema.sql und einem sql File zum befüllen der Datenbank über das init_db.py File gemacht.
+            Diese Dateien sind der Dokumentation halber noch vorhanden. 
+            <br>
+            Die Schlussendliche implementierung erfolgt über SQLAlchemy-Klassen in einer models.py Datei, welche über eine Funktion zum erstellen der Datenbank aufgerufen wird. 
+            Wenn die app.py aufgerufen wird wird die Datenbank erstellt und mit Daten befüllt. Wenn sie bereits existiert wird sie nicht neu erstellt und Flask ist startbar.
+            Die Funktion zum befüllen mit Testdaten befindet sich in testdata.py. Die Funktion könnte sehr minimiert geschrieben werden. der Vorteil dieser Methode (commit nach jedem table) ist, dass der Code leicht änderbar und wiederverwendbar ist. 
+            <br>
+            <br>
+            <br>
+            Hier sind noch ein paar Errormeldungen vom implementieren der Testdaten. Ein Error war, dass "str" in einen "int" eingefügt werden wollte, ein paar Schreibfehler und noch Probleme mit dem Datumsformat. 
+            SQLAlchemy hat die Verwendung von Umlauten als Fehler markiert worauf diese auch geändert wurden. 
+
+            <br>
+            <br>
+            datetime-error:
+            <img src="/static/pics/error_sql.png" alt="error1">
+            <br>
+            <br>
+            Lösung:
+            <img src="/static/pics/error_datetime.png" alt="error2">
+            <br>
+            <br>
+            "str" Error"
+            <img src="/static/pics/error_sql2.png" alt="error3">
+            <br>
+            <br>
+            Another Time/Date Error
+            <img src="/static/pics/error_sql3.png" alt="error4">
+            <br>
+            <br>
+            Schreibfehler
+            <img src="/static/pics/error_sql4.png" alt="error5">
+            <br>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>
 
 {% endblock %}

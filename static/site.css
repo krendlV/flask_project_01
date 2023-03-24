@@ -66,3 +66,33 @@
 #team .card:hover i {
     color: #fff;
 }
+
+/* Accordion für Doku*/
+.accordion-body {
+    text-align: left;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #FFF  !important;
+    background-color: #009688 !important;
+  }
+  
+  
+  
+  .accordion-button:link, .accordion-button:visited, .accordion-button:hover, .accordion-button:active  {
+    background-color: #009688 !important;
+      color:#FFF !important;
+      text-decoration: none !important;
+       border: hidden !important;
+         border-color: #009688 !important;
+      box-shadow: 0px !important;
+  
+        
+  }
+  
+  .accordion-button:focus {
+    z-index: 3;
+    border-color: #009688 !important;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem #009688 !important;
+  }
