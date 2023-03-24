@@ -3,7 +3,7 @@ from datetime import datetime
 
 def create_test_data():
     # create a new user
-    user1 = User(username='john', email='john@example.com', joined_at=datetime.utcnow(), Sozialversicherungsnummer=111111111)
+    user1 = User(username='john', email='john@gmail.com', joined_at=datetime.utcnow(), Sozialversicherungsnummer=111111111)
     user1.set_password('password1')
 
     # add the user to the session

@@ -332,10 +332,23 @@ def logout():
     return redirect(url_for('/'))
 
 # project 2
-@app.route("/project2/")
+@app.route('/project2/', methods=['POST', 'GET'])
 def project2():
-    return render_template("project2.html")
+        if request.method == "POST":
+             shipnr = request.form["shipnr"]
+             #session["shipnr"]= shipnr # ----->>>> wohin zeigt die session? was ist in session? like in: in user-funktion(user): if "user" in session: user = session["user"]
+             found_ship = session.query.filter_by(Inventarnummer=shipnr).first()
+             if found_ship:
+                  #return(Schiff.Seemeilen)
+                  session[shipnr]=found_ship
+                  seemeilen=session.query(found_ship.Inventarnummer, found_ship.Seemeilen).filter_by(Inventarnummer=shipnr).first()
+                  return render_template("Schiffnr.html", values=seemeilen)
+             else:
+                  return redirect(url_for("shipnr.html"))#url_for muss noch auf eine andere Funktion mit key:value pair referenzieren
+        #    return render_template(inventarnr.html)
 
+        else:
+             return render_template("Schiffnr.html")
 # project 3
 @app.route("/project3/")
 def project3():
