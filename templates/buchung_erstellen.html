@@ -1,0 +1,24 @@
+
+{% extends "layout.html" %}
+{% block title %}
+  <head>
+    <title>Neue Buchung erstellen</title>
+  </head>
+  <body>
+    <h1>Neue Buchung erstellen</h1>
+    <form method="post">
+      <label for="travel_class">Klasse:</label>
+      <select name="travel_class" id="travel_class" required>
+        <option value="economy">Economy</option>
+        <option value="business">Business</option>
+        <option value="first">First</option>
+      </select>
+      <br>
+      <button type="submit">Buchung erstellen</button>
+    </form>
+  </body>
+{% endblock %}
+{% block content %}
+
+{% endblock %}
+
