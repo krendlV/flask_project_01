@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}
+Eingabe Schiffnummer
+{% endblock %}
+{% block content %}
+<br>
+<h1>Bitte Schiffnummer eingeben</h1>
+<form action="#" method=" POST">
+    <input type="shipnr" name="shipnr" placeholder="Enter shipnr" value="{{shipnr if shipnr}}"/>
+    <input type="submit" value="submit"/>
+<br>
+</form action="#" method=" POST">
+<input type="seemeilen" name="seemeilen" placeholder="seemeilen eingeben" value="{{seemeilen if seemeilen}}"/>
+<input type="submit" value="submit"/>>
+{% endblock %}
