@@ -336,19 +336,34 @@ def logout():
 def project2():
         if request.method == "POST":
              shipnr = request.form["shipnr"]
-             #session["shipnr"]= shipnr # ----->>>> wohin zeigt die session? was ist in session? like in: in user-funktion(user): if "user" in session: user = session["user"]
-             found_ship = session.query.filter_by(Inventarnummer=shipnr).first()
+             found_ship = db.session.query.filter_by(Inventarnummer=shipnr).first()
              if found_ship:
-                  #return(Schiff.Seemeilen)
                   session[shipnr]=found_ship
-                  seemeilen=session.query(found_ship.Inventarnummer, found_ship.Seemeilen).filter_by(Inventarnummer=shipnr).first()
-                  return render_template("Schiffnr.html", values=seemeilen)
+                  seemeilen=db.session.query(found_ship.Inventarnummer, found_ship.Seemeilen).filter_by(Inventarnummer=shipnr).first()
+                  session['seemeilen']=seemeilen
+                  if seemeilen:
+                      return redirect(url_for("update.html"))
+                      
+                  else: 
+                    return render_template("Schiffnr.html")
              else:
-                  return redirect(url_for("shipnr.html"))#url_for muss noch auf eine andere Funktion mit key:value pair referenzieren
-        #    return render_template(inventarnr.html)
+                  return render_template("Schiffnr.html")
 
         else:
              return render_template("Schiffnr.html")
+        
+
+@app.route('/update', method =['POST', 'GET'])
+def update():
+    if request.method=="POST":
+        update= Schiff(shipnr=request.form["shipnr"], Seemeilen=request.form["seemeilen"])
+        db.session.add(update)
+        db.session.commit()
+        return flash("Seemeilen wurden geändert")
+    else:
+        return render_template("update.html")
+    
+    
 # project 3
 @app.route("/project3/", methods=['GET', 'POST'])
 def project3():
